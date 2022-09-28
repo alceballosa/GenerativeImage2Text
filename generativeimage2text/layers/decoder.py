@@ -1195,7 +1195,7 @@ class GeneratorWithBeamSearch(object):
                 for idx, score in zip(next_words[batch_ex], next_scores[batch_ex]):
 
                     # get beam and word IDs
-                    beam_id = idx // vocab_size
+                    beam_id = torch.div(idx, vocab_size, rounding_mode='floor')
                     word_id = idx % vocab_size
 
                     # end of sentence, or next word
@@ -1373,4 +1373,3 @@ def top_k_top_p_filtering(logits, top_k=0, top_p=1.0, filter_value=-float("Inf")
         indices_to_remove = sorted_indices_to_remove.scatter(1, sorted_indices, sorted_indices_to_remove)
         logits[indices_to_remove] = filter_value
     return logits
-

@@ -89,7 +89,7 @@ def test_git_inference_single_image(image_path, model_name, prefix):
     img = [i.unsqueeze(0).cuda() for i in img]
 
     # prefix
-    max_text_len = 40
+    max_text_len = 128
     prefix_encoding = tokenizer(prefix,
                                 padding='do_not_pad',
                                 truncation=True,
@@ -106,7 +106,7 @@ def test_git_inference_single_image(image_path, model_name, prefix):
             'prefix': torch.tensor(input_ids).unsqueeze(0).cuda(),
         })
     cap = tokenizer.decode(result['predictions'][0].tolist(), skip_special_tokens=True)
-    logging.info('output: {}'.format(cap))
+    print('output: {}'.format(cap))
 
 def get_image_transform(param):
     crop_size = param.get('test_crop_size', 224)
@@ -319,4 +319,3 @@ if __name__ == '__main__':
     function_name = kwargs['type']
     del kwargs['type']
     locals()[function_name](**kwargs)
-
